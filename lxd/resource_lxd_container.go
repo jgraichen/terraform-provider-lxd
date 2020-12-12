@@ -431,7 +431,16 @@ func resourceLxdContainerRead(d *schema.ResourceData, meta interface{}) error {
 	}
 	log.Printf("[DEBUG] Retrieved container state %s:\n%#v", name, state)
 
-	d.Set("type", container.Type)
+	if container.Type == "" {
+		// If the LXD server does not support virtualization (e.g. because not
+		// supported) or the instances API is not available `container.Type`
+		// might be a blank string. In that case we fall back to `"container"`
+		// to avoid constant changes to the resource definition.
+		d.Set("type", "container")
+	} else {
+		d.Set("type", container.Type)
+	}
+
 	d.Set("ephemeral", container.Ephemeral)
 	d.Set("privileged", false) // Create has no handling for it yet
 	d.Set("target", container.Location)
