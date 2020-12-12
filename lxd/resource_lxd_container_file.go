@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func resourceLxdContainerFile() *schema.Resource {
@@ -143,7 +143,7 @@ func resourceLxdContainerFileRead(d *schema.ResourceData, meta interface{}) erro
 	d.Set("target_file", targetFile)
 	d.Set("uid", file.UID)
 	d.Set("gid", file.GID)
-	d.Set("mode", file.Mode)
+	d.Set("mode", fmt.Sprintf("%x", file.Mode))
 
 	return nil
 }

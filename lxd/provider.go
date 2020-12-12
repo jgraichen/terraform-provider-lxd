@@ -10,8 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/terraform"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	lxd "github.com/lxc/lxd/client"
 	lxd_config "github.com/lxc/lxd/lxc/config"
@@ -67,8 +66,8 @@ type terraformLXDConfig struct {
 	bootstrapped bool
 }
 
-// Provider returns a terraform.ResourceProvider
-func Provider() terraform.ResourceProvider {
+// Provider -
+func Provider() *schema.Provider {
 	// The provider definition
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
@@ -122,37 +121,6 @@ func Provider() terraform.ResourceProvider {
 						},
 					},
 				},
-			},
-
-			"address": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Removed:  "Use `lxd_remote.address` instead.",
-			},
-
-			"scheme": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Removed:  "Use `lxd_remote.scheme` instead.",
-			},
-
-			"port": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Removed:  "Use `lxd_remote.port` instead.",
-			},
-
-			"remote": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Removed:  "Use `lxd_remote.name` instead.",
-			},
-
-			"remote_password": {
-				Type:      schema.TypeString,
-				Sensitive: true,
-				Optional:  true,
-				Removed:   "Use `lxd_remote.password` instead.",
 			},
 
 			"config_dir": {
