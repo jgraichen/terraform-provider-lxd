@@ -1,7 +1,7 @@
 ---
 language: go
 sudo: true
-dist: bionic
+dist: focal
 
 env:
   global:
@@ -19,15 +19,8 @@ env:
     - CHANNEL="candidate"
     - CHANNEL="edge"
 
-addons:
-  apt:
-    packages:
-      - snapd
-      - build-essential
-
 before_install:
-  - sudo snap install lxd --channel=${CHANNEL}
-  - export PATH=/snap/bin/:${PATH}
+  - sudo snap refresh lxd --channel=${CHANNEL}
   - sudo lxd waitready --timeout 60
   - sudo lxd init --auto --trust-password="${LXD_PASSWORD}" --network-port=8443 --network-address='[::]'
   - sudo chmod 777 /var/snap/lxd/common/lxd/unix.socket
